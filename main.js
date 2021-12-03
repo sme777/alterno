@@ -222,6 +222,8 @@ $('body').terminal({
         if (cmd == "gates") {
             if (hasKeys) {
                 this.echo("You put the keys in the lock and turn. You hear a lound clunk as the gates turn. \nA dimly lit alleyway materializes. You can hear Gregorian chants in distance.")
+            } else {
+                this.echo("The doors are closed, you need a key to open them.")
             }
         }
     },
