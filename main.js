@@ -6,7 +6,7 @@ const blockingArray= [
     "Something burns your foot. It looks like water but it's red. You look up to the terrifying scene of a lava waterwall. Inside skeleton of piranha are munching on the souls of dead. You turn around and run back to the previous position.",
     "You see a narrow path. You keep following and after a long walk find yourself back to where you started.",
     "All you can see is darkness, you step back.",
-    "You see an ax fall from the sky. It nearly hits you. You look around carefully, and see a number of booby traps. This road is too dangerous, you return abck to the rpevious position.",
+    "You see an ax fall from the sky. It nearly hits you. You look around carefully, and see a number of booby traps. This road is too dangerous, you return back to the previous position.",
 ]
 let currCircle = "Limbo"
 let currPosition = "start of valley"
@@ -14,13 +14,46 @@ let isDanteAvailable = false
 let isBeatriceAvailable = false
 let isVirgilAvailable = false
 let isInscriptionSaved = false
+let hasKeys = false
 
 $('body').terminal({
     go: function(dir) {
         if (dir == "east") {
             this.echo(`Going east of ${currPosition}`)
+            if (currPosition == "start of valley") {
+                currPosition = "east valley"
+                this.echo("In distance you see the Citadel of Limbo.")
+            } else if (currPosition == "east valley") {
+                currPosition = "gates of Citadel"
+                this.echo("You approach the gates of Citadel.")
+                this.echo("\
+                ,.=,,==. ,,_\n \
+                _ ,====, _    |I|`` ||  `|I `|\n \
+               |`I|    || `==,|``   ^^   ``  |\n \
+               | ``    ^^    ||_,===TT`==,,_ |\n \
+               |,==Y``Y==,,__| \L=_-`'   +J/`\n \
+                \|=_  ' -=#J/..-|=_-     =|\n \
+                 |=_   -;-='`. .|=_-     =|----T--,\n \
+                 |=/\  -|=_-. . |=_-/^\  =||-|-|::|____\n \
+                 |=||  -|=_-. . |=_-| |  =|-|-||::\____\n \
+                 |=LJ  -|=_-. . |=_-|_| =||-|-|:::::::\n \
+                 |=_   -|=_-_.  |=_-     =|-|-||:::::::\n \
+                 |=_   -|=//^\. |=_-     =||-|-|:::::::\n \
+             ,   |/&_,_-|=||  | |=_-     =|-|-||:::::::\n \
+          ,--``8%,/    ',%||  | |=_-     =||-|-|%::::::\n \
+      ,---`_,888`  ,.'''''`-.,|,|/!,--,.&\|&\-,|&#:::::\n \
+     |;:;K`__,...;=\_____,=``           %%%&     %#,---\n \
+     |;::::::::::::|       `'.________+-------\   ``\n \
+    /8M%;:::;;:::::|                  |        `-------\n \
+                ")
+            }
         } else if (dir == "west") {
             this.echo(`Going west of ${currPosition}`)
+            if (currPosition == "gates of Citadel") {
+                currPosition = "east valley"
+            } else if (currPosition == "east valley") {
+                currPosition = "start of valley"
+            }
         } else if (dir == "north") {
             this.echo(`Going north of ${currPosition}`)
             if (currPosition == "south valley") {
@@ -38,7 +71,32 @@ $('body').terminal({
                 currPosition = "start of valley"
             }
             
-        } else {
+        } else if (dir == "in") {
+            this.echo("As you walk across the alleyway, you hear whispers from above. You get an eerie feeling that something is behind you. You turn around, only to be paralyzed by the sight in fron of you.")
+            this.echo("\
+            .:'                                  `:.\n\
+            ::'                                    `::\n\
+           :: :.                                  .: ::\n\
+            `:. `:.             .             .:'  .:'\n\
+              `::. `::          !           ::' .::'\n\
+                 `::.`::.    .' ! `.    .::'.::'\n\
+                   `:.  `::::'':!:``::::'   ::'\n\
+                   :'*:::.  .:' ! `:.  .:::*`:\n\
+                  :: HHH::.   ` ! '   .::HHH ::\n\
+                 ::: `H TH::.  `!'  .::HT H' :::\n\
+                 ::..  `THHH:`:   :':HHHT'  ..::\n\
+                 `::      `T: `. .' :T'      ::'\n\
+                   `:. .   :         :   . .:'\n\
+                     `::'               `::'\n\
+                       :'  .`.  .  .'.  `:\n\
+                       :' ::.       .:: `:\n\
+                       :' `:::     :::' `:\n\
+                        `.  ``     ''  .'\n\
+                         :`...........':\n\
+                         ` :`.     .': '\n\
+                          `:  `''''  :'")
+        } 
+        else {
             this.echo(blockingArray[Math.floor(Math.random() * blockingArray.length)])
             // this.echo("A lurking demon blocks your way!")
         }
@@ -96,8 +154,8 @@ $('body').terminal({
         }
     },
 
-    run: () => {
-
+    run: function() {
+        this.echo("You run as fast as you can. The alleyway is dark so you can't see where you are going, suddently you find yourself in the air tripped from the uneven surfacee of the alleyway. You faint.")
     },
     talk: () => {
 
@@ -155,7 +213,16 @@ $('body').terminal({
 
     pick: function(cmd) {
         if (cmd == "key") {
+            hasKeys = true
             this.echo("Keys picked!")
+        }
+    },
+
+    open: function(cmd) {
+        if (cmd == "gates") {
+            if (hasKeys) {
+                this.echo("You put the keys in the lock and turn. You hear a lound clunk as the gates turn. \nA dimly lit alleyway materializes. You can hear Gregorian chants in distance.")
+            }
         }
     },
 
